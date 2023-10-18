@@ -21,7 +21,6 @@ const {startServer} = serverConfig(server)
 
 expressConfig(app)
 connectDB()
-
 routes(app)
 
 
