@@ -13,7 +13,9 @@ const authRoutes = () => {
         authServiceInterface,
         authService
     )
-    router.post('/user-register',controller.registerUserController)
+    router.post('/user-register', controller.registerUserController)
+    
+    router.post('/user-login',controller.userLoginController)
 
     return router
 }
