@@ -1,10 +1,29 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import App from "./App.tsx";
+import LoginPage from "./pages/login.tsx";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+
+import { createBrowserRouter } from "react-router-dom";
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <App />
+    ),
+    errorElement: (
+      <>
+        <h4>error</h4>
+      </>
+    ),
+    children: [
+      {
+        path: '/login',
+        element: (
+          <LoginPage />
+        )
+      }
+    ]
+  },
+]);
+
+export default appRouter;
