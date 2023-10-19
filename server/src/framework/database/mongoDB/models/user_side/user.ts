@@ -1,31 +1,22 @@
 import  { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
-  firstName: {
+  name: {
     type: String,
     required: [true, "please add a first name"],
   },
-  lastName: {
+  email: {
     type: String,
-    required: [true, "please add a first name"],
+    required: [true, "please add a email"],
   },
-//   email: {
-//     type: String,
-//     required: [true, "please add a first name"],
-//     unique: true,
-//   },
-//   password: {
-//     type: String,
-//   },
-//   status: {
-//     type: String,
-//     default: "active",
-//   },
-//   joinedOn: {
-//     type: String,
-//     default: new Date().toDateString(),
-//   },
- 
+  password: {
+    type: String,
+    required: [true, "please add password"],
+  },
+  joinedOn: {
+    type: String,
+    default: new Date().toDateString(),
+  },
 });
 
 const User = model("User", userSchema, "users");
