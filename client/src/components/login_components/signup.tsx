@@ -17,7 +17,7 @@ const SignUpComponent: React.FC<ChildProps> = (props: ChildProps) => {
         onClick={() => {
           props.handleMode("signUp");
         }}
-        className="w-[40%] h-14 bg-[#27b397] rounded-full mt-6 hover:bg-[#38ba8c] transition duration-300 ease-in-out text-2xl font-semibold text-white"
+        className="w-28 h-10 bg-[#27b397] rounded-full mt-6 hover:bg-[#38ba8c] transition duration-300 ease-in-out text-2xl font-semibold text-white"
       >
         Sign Up
       </button>

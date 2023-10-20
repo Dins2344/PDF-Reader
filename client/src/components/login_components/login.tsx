@@ -10,7 +10,7 @@ const LoginForm: React.FC<ChildProps> = (props: ChildProps) => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate()
-  
+
   const handleSubmit = async () => {
     const data = { email, password };
     if (!data.email.match(/^[\w\.-]+@[\w\.-]+\.\w+/)) {
@@ -88,7 +88,7 @@ export const LoginComponent: React.FC<ChildProps> = (props: ChildProps) => {
         onClick={() => {
           props.handleMode("login");
         }}
-        className="w-[30%] h-14 bg-[#27b397] rounded-full mt-6 hover:bg-[#38ba8c] transition duration-300 ease-in-out text-2xl font-semibold text-white"
+        className="w-24 h-10 bg-[#27b397] rounded-full mt-6 hover:bg-[#38ba8c] transition duration-300 ease-in-out text-2xl font-semibold text-white"
       >
         Login
       </button>
