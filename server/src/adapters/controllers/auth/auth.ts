@@ -1,4 +1,4 @@
-import { userLogin } from './../../../application/usecases/auth/auth';
+import { userLogin } from "./../../../application/usecases/auth/auth";
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { UserDBInterface } from "../../../application/repositories/user";
@@ -18,7 +18,11 @@ const authController = (
 
   const registerUserController = asyncHandler(
     async (req: Request, res: Response) => {
-      const userData = req.body;
+      const userData = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+      };
       try {
         const response = await userRegister(userData, userDB, authService);
         res.json({ response, ok: true });
@@ -28,21 +32,23 @@ const authController = (
         }
       }
     }
-    );
-    
-    const userLoginController = asyncHandler(async (req: Request, res: Response) => {
-        const userData = req.body
-        try {
-            const response = await userLogin(userData, userDB, authService)
-            res.json({response,ok:true})
-        } catch (err:any) {
-            res.json({message:err.message})
-        }
-    })
+  );
+
+  const userLoginController = asyncHandler(
+    async (req: Request, res: Response) => {
+      const userData = req.body;
+      try {
+        const response = await userLogin(userData, userDB, authService);
+        res.json({ response, ok: true });
+      } catch (err: any) {
+        res.json({ message: err.message });
+      }
+    }
+  );
 
   return {
-      registerUserController,
-      userLoginController
+    registerUserController,
+    userLoginController,
   };
 };
 

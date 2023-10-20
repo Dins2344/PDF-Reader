@@ -8,4 +8,11 @@
   font-weight: 400;
 }
 
+.loginPageSmall {
+  background-image: url('../public/user_login_bg.jpg'); /* URL of the image */
+  background-size: cover; /* Set the size of the background image */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat;
+}
+
 

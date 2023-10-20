@@ -1,5 +1,5 @@
 import api from "./interceptors"
-import { userLoginData } from "../types/user"
+import { userLoginData, userRegisterData } from "../types/user"
 
 export const userLogin = async (userData:userLoginData) => {
     try {
@@ -9,4 +9,13 @@ export const userLogin = async (userData:userLoginData) => {
         console.log(err)
     }
 
+}
+
+export const userRegister = async (userData: userRegisterData) => {
+    try {
+        const { data } = await api.post('/auth/user-register', userData)
+        return data
+    } catch (err) {
+        console.log(err)
+    }
 }
