@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import logo from "../../../public/logos/PDF Reader1.png";
+import logo from "/logos/PDF Reader1.png";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
