@@ -1,13 +1,8 @@
 import { useRef, useState } from "react";
-import { Document, Page } from "react-pdf";
-import { pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/TextLayer.css";
-import "react-pdf/dist/Page/AnnotationLayer.css";
+import MergeFile from "./mergeFile";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
+
+
 
 type FileState = File | null;
 const SplitPDF: React.FC = () => {
@@ -38,7 +33,7 @@ const SplitPDF: React.FC = () => {
       {file ? (
         <MergeFile file={file} />
       ) : (
-        <div className="flex flex-col w-full items-center">
+        <div className="flex flex-col w-full items-center mt-10">
           <h2 className="text-center  text-3xl font-semibold md:font-bold md:text-5xl ">
             Split PDF Files
           </h2>
@@ -69,54 +64,4 @@ const SplitPDF: React.FC = () => {
 
 export default SplitPDF;
 
-interface ChildProps {
-  file: File;
-}
 
-const MergeFile: React.FC<ChildProps> = ({ file }) => {
-  const [numPages, setNumPages] = useState(0);
-  const [selectedPages, setSelectedPages] = useState<number[]>([]);
-  // Set the workerSrc to the worker script from pdfjs-dist
-//   pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
-  const handleDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-  };
-  const togglePageSelection = (page: number) => {
-    if (selectedPages.includes(page)) {
-      setSelectedPages(selectedPages.filter((p) => p !== page));
-    } else {
-      setSelectedPages([...selectedPages, page]);
-    }
-  };
-  console.log(file);
-  return (
-    <>
-      <div className="w-full h-full flex ">
-        <div className="md:w-3/4 w-full">
-          <Document
-            file={file} // Replace with your PDF file URL
-                      onLoadSuccess={handleDocumentLoadSuccess}
-                      className="flex flex-wrap gap-5"
-          >
-            {Array.from(new Array(numPages), (el, index) => (
-              <div className="relative rounded-lg shadow-md p-5 bg-slate-200" key={index}>
-                <Page className='border-2' pageNumber={index + 1} width={200} />
-                <label>
-                  Page {index + 1}
-                  <input
-                    type="checkbox"
-                    checked={selectedPages.includes(index + 1)}
-                            onChange={() => togglePageSelection(index + 1)}
-                            className="w-8 h-8 absolute top-2 right-2 z-10 rounded-full"
-                  />
-                </label>
-              </div>
-            ))}
-          </Document>
-        </div>
-        <div className="md:w-1/4 hidden md:flex"></div>
-      </div>
-    </>
-  );
-};
