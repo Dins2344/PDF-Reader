@@ -1,8 +1,10 @@
 import App from "./App.tsx";
 import LoginPage from "./pages/login.tsx";
+import NavBar from "./components/common_components/navBar.tsx";
 
 
 import { createBrowserRouter } from "react-router-dom";
+import HomePage from "./pages/home.tsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -17,9 +19,21 @@ const appRouter = createBrowserRouter([
     ),
     children: [
       {
+        path: '/',
+        element: (
+          <>
+          <NavBar />
+          <HomePage />
+          </>
+        )
+    },
+      {
         path: '/login',
         element: (
+          <>
+          <NavBar />
           <LoginPage />
+          </>
         )
       }
     ]

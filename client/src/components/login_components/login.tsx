@@ -30,7 +30,7 @@ const LoginForm: React.FC<ChildProps> = (props: ChildProps) => {
 
   return (
     <>
-      <div className=" flex flex-col w-full h-full items-center justify-center px-10">
+      <div className=" flex flex-col w-full h-full items-center justify-center px-10 md:px-0">
         <h4 className=" text-3xl font-semibold lg:text-5xl lg:font-bold mb-10 lg:mb-24 text-center">
           Login to Your Account
         </h4>

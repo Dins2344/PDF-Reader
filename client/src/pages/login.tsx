@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import LoginForm, {
   LoginComponent,
 } from "../components/login_components/login";
@@ -8,9 +9,20 @@ import SignUpComponent, {
 
 const LoginPage: React.FC = () => {
   const [mode, setMode] = useState("login");
+  const navigate = useNavigate()
   const handleMode = (mode: string) => {
     setMode(mode);
   };
+
+  useEffect(() => {
+    isLoggedIn()
+  })
+  const isLoggedIn = () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/')
+    }
+  }
   return (
     <>
       <div className="w-screen h-screen ">
