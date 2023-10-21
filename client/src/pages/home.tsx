@@ -1,11 +1,13 @@
-
+import SplitPDF from "../components/body_components/splitPDF";
 
 const HomePage: React.FC = () => {
-    return (
-        <>
-        <h3>hello</h3>
-        </>
-    )
-}
+  return (
+    <>
+      <div className=" md:px-5 px-10  pt-24 w-full min-h-screen">
+        <SplitPDF />
+      </div>
+    </>
+  );
+};
 
-export default HomePage
+export default HomePage;
