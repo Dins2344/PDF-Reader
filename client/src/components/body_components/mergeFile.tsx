@@ -34,7 +34,7 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
   return (
     <>
       <div className="w-full h-full flex  ">
-        <div className="md:w-3/4 w-full px-2 pt-3 xl:px-16 bg-slate-200 pt-5 min-h-screen">
+        <div className="md:w-3/4 w-full px-2 xl:px-16 bg-slate-200 pt-16 min-h-screen">
           <Document
             file={file} // Replace with your PDF file URL
             onLoadSuccess={handleDocumentLoadSuccess}
