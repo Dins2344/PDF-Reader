@@ -16,6 +16,9 @@ interface ChildProps {
 const MergeFile: React.FC<ChildProps> = ({ file }) => {
   const [numPages, setNumPages] = useState(0);
   const [selectedPages, setSelectedPages] = useState<number[]>([]);
+  const [mode, setMode] = useState('pages')
+  
+ 
 
   const handleDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
@@ -31,10 +34,28 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
     const res = await mergePDF("thara");
     console.log(res);
   };
+
+  const handleSelectAll = () => {
+    setMode('all')
+    setSelectedPages((prevSelectedPages) => {
+      const newSelectedPages = [];
+      for (let i = 1; i <= numPages; i++) {
+        if (!prevSelectedPages.includes(i)) {
+          newSelectedPages.push(i);
+        }
+      }
+      return [...prevSelectedPages, ...newSelectedPages];
+    });
+  }
+
+  const handleSelectPages = () => {
+    setMode('pages')
+    setSelectedPages([])
+  }
   return (
     <>
       <div className="w-full h-full flex  ">
-        <div className="md:w-3/4 w-full px-2 xl:px-16 bg-slate-200 pt-16 min-h-screen">
+        <div className="md:w-9/12 w-full px-2 xl:px-16 bg-slate-200 pt-16 min-h-screen">
           <Document
             file={file} // Replace with your PDF file URL
             onLoadSuccess={handleDocumentLoadSuccess}
@@ -45,7 +66,11 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
                 className="relative rounded-lg shadow-md p-2 md:p-5 bg-white"
                 key={index}
               >
-                <Page className="border-2 flex justify-center" pageNumber={index + 1} width={160} />
+                <Page
+                  className="border-2 flex justify-center"
+                  pageNumber={index + 1}
+                  width={160}
+                />
                 <label>
                   Page {index + 1}
                   <input
@@ -59,17 +84,37 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
             ))}
           </Document>
         </div>
-        <div className="md:w-1/4 hidden md:flex flex-col justify-center top-5 sticky  max-h-[640px] ">
-          <div className="flex flex-col w-full px-3 ">
+        <div className="md:w-3/12 hidden md:flex flex-col justify-center top-5 sticky  max-h-[640px] ">
+          <div className="flex flex-col  px-3 ">
             <h3 className="text-3xl text-center mt-5 mb-10 ">Extract pages</h3>
+            <div className="flex w-full flex-wrap justify-center xl:justify-between px-5 mb-5">
+              <button
+                onClick={handleSelectAll}
+                className="bg-green-400 text-white mb-5 xl:mb-0 rounded-lg px-3 py-2"
+              >
+                Select all pages
+              </button>
+              <button
+                onClick={handleSelectPages}
+                className="bg-orange-500 text-white rounded-lg px-3 py-2"
+              >
+                Select pages
+              </button>
+            </div>
 
-            <label htmlFor="toExtract">Pages to Extract:</label>
-            <input
-              id="toExtract"
-              className=" ps-2 w-full border-2 border-black rounded-md"
-              readOnly
-              value={selectedPages.sort((a:number, b:number) => a - b).join(", ")}
-            />
+            <label htmlFor="toExtract">
+              Pages to Extract:{mode === "all" ? numPages : ""}
+            </label>
+            {mode === "pages" && (
+              <input
+                id="toExtract"
+                className=" ps-2  border-2 border-black rounded-md"
+                readOnly
+                value={selectedPages
+                  .sort((a: number, b: number) => a - b)
+                  .join(", ")}
+              />
+            )}
             <button
               onClick={handleMerge}
               className="self-center mt-10 w-auto h-auto px-3 py-2 rounded-lg bg-green-400 text-white font-semibold"
@@ -82,14 +127,32 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
       <div className="md:hidden sticky bottom-0 z-30 flex  w-[100%] bg-white pb-2">
         <div className="flex flex-col w-full px-4 ">
           <h3 className="text-3xl text-center mt-5 mb-10 ">Extract pages</h3>
+          <div className="flex w-full flex-wrap justify-between px-5 mb-5">
+            <button
+              onClick={handleSelectAll}
+              className="bg-green-400 text-white  rounded-lg px-3 py-2"
+            >
+              Select all pages
+            </button>
+            <button
+              onClick={handleSelectPages}
+              className="bg-orange-500 text-white rounded-lg px-3 py-2"
+            >
+              Select pages
+            </button>
+          </div>
 
-          <label htmlFor="toExtract">Pages to Extract:</label>
+          <label htmlFor="toExtract">Pages to Extract:{mode === 'all'?numPages:'' }</label>
+          {mode === 'pages' && 
           <input
             id="toExtract"
             className=" ps-2 w-full border-2 border-black rounded-md"
             readOnly
-            value={selectedPages.sort((a:number, b:number) => a - b).join(", ")}
+            value={selectedPages
+              .sort((a: number, b: number) => a - b)
+              .join(", ")}
           />
+          }
           <button
             onClick={handleMerge}
             className="self-center mt-10 w-auto h-auto px-3 py-2 rounded-lg bg-green-400 text-white font-semibold"

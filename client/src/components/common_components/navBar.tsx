@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const NavBar: React.FC = () => {
   return (
-    <header className="w-screen h-auto absolute top-0 flex flex-wrap justify-between items-center bg-white py-2 px-5 md:px-10 border-b-2 z-50">
+    <header className="w-full h-auto absolute top-0 flex flex-wrap justify-between items-center bg-white py-2 px-5 md:px-10 border-b-2 z-50">
       <Logo />
       <NavMenu />
     </header>
