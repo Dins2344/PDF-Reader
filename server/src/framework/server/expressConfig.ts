@@ -15,6 +15,8 @@ const expressConfig = (app: Application) => {
         origin: "*",
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true,
+        allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
+        exposedHeaders: "X-Custom-Header",
       })
     );
     app.use(express.json());

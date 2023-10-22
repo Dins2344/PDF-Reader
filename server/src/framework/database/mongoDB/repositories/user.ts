@@ -1,6 +1,7 @@
 
 import { RegisteredUser } from "../../../../types/user"
 import User from "../models/user_side/user"
+import Files from "../models/user_side/files"
 
 
 export const userRepositoryMongoDB = () => {
@@ -27,10 +28,21 @@ export const userRepositoryMongoDB = () => {
         }
     }
 
+    const addPDF = async (userId :string, fileName:string) => {
+        const data = {fileName,userId}
+        try {
+            const res = await Files.create(data)
+            return res
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
 
     return {
         getUserByEmail,
-        addUser
+        addUser,
+        addPDF
     }
 }
 

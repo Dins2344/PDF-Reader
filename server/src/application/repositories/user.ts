@@ -10,9 +10,14 @@ export const userDBRepository = (repository: ReturnType<UserRepositoryMongoDB>) 
         return await repository.addUser(userData)
     }
 
+    const addFile = async (userId: string, fileName: string) => {
+       return await repository.addPDF(userId,fileName)
+    }
+
     return {
         getUserByEmail,
-        addUser
+        addUser,
+        addFile
     }
 }
 
