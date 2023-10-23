@@ -2,8 +2,10 @@ import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
-import { mergePDF } from "../../api/user";
-import { useState } from "react";
+import { getUploadedPDF, mergePDF } from "../../api/user";
+import { useEffect, useState } from "react";
+
+import configKey from "../../envConfig";
 
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -12,14 +14,34 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 interface ChildProps {
-  file: File;
+  fileId: string;
 }
 
-const MergeFile: React.FC<ChildProps> = ({ file }) => {
+const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
+  const [file, setFile] = useState<File | null>(null);
   const [numPages, setNumPages] = useState(0);
   const [selectedPages, setSelectedPages] = useState<number[]>([]);
   const [all, setAll] = useState(false);
   const [extracted, setExtracted] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    getFile()
+  }, [])
+ 
+  const getFile = async () => {
+    const fileData = await getUploadedPDF(fileId);  
+    const pdfArrayBuffer = fileData
+    const uint8Array = new Uint8Array(pdfArrayBuffer)
+    const blob = new Blob([uint8Array], { type: "application/pdf" });
+
+    // Create a File from the Blob
+    const fileObject = new File([blob], "lastAdded.pdf", {
+      type: "application/pdf",
+    });
+     setFile(fileObject);
+    console.log(fileObject)
+  }
 
   const handleDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
@@ -34,14 +56,11 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
   };
 
   const handleMerge = async () => {
-    const formData = new FormData();
-    formData.append("pdfFile", file);
-    formData.append(
-      "selectedPages",
-      JSON.stringify(selectedPages.sort((a: number, b: number) => a - b))
-    );
+    const data = {
+      selectedPages: selectedPages.sort((a: number, b:number)=>a-b)
+  }
 
-    await mergePDF(formData).then((res) => {
+    await mergePDF(data).then((res) => {
       console.log(res?.data);
       const blob = new Blob([res?.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
@@ -80,6 +99,7 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
     <>
       <div className="w-full h-full flex  ">
         <div className="md:w-9/12 w-full px-2 xl:px-16 bg-slate-200 pt-16 min-h-screen">
+          {file && 
           <Document
             file={file} // Replace with your PDF file URL
             onLoadSuccess={handleDocumentLoadSuccess}
@@ -107,6 +127,7 @@ const MergeFile: React.FC<ChildProps> = ({ file }) => {
               </div>
             ))}
           </Document>
+          }
         </div>
         <div className="md:w-3/12 hidden md:flex flex-col justify-center top-5 sticky  max-h-[640px] ">
           <div className="flex flex-col  px-3 ">

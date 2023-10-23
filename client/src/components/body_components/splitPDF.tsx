@@ -1,22 +1,28 @@
 import { useRef, useState } from "react";
 import MergeFile from "./mergeFile";
+import { savePDF } from "../../api/user";
 
 
 
 
-type FileState = File | null;
+// type FileState = File | null;
 const SplitPDF: React.FC = () => {
-  const [file, setFile] = useState<FileState>(null);
+  const [fileId, setFileId] = useState('');
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedFile = e.target.files[0];
       if (selectedFile.type === "application/pdf") {
-        setFile(selectedFile);
+         const formData = new FormData();
+        formData.append("PDFFile", selectedFile); // Appending file in the formData
+        const res = await savePDF(formData) //API call for saving the PDF file in the sever
+        if (res.ok) {
+          setFileId(res.response._id)
+        }
       } else {
-        setError("upload valid file");
+        setError("upload valid file"); // setting error if the file format is not PDF
         setTimeout(() => {
           setError("");
         }, 4000);
@@ -30,8 +36,8 @@ const SplitPDF: React.FC = () => {
   };
   return (
     <>
-      {file ? (
-        <MergeFile file={file} />
+      {fileId ? (
+        <MergeFile fileId={fileId} />
       ) : (
         <div className="flex flex-col w-full items-center mt-10">
           <h2 className="text-center  text-3xl font-semibold md:font-bold md:text-5xl ">

@@ -1,5 +1,5 @@
 // import { Request } from 'express'
-import multer, { Multer } from "multer";
+import multer from "multer";
 // import { v4 as uuidv4 } from "uuid";
 // import path from "path";
 // import fs from 'fs'
@@ -19,8 +19,7 @@ import multer, { Multer } from "multer";
 //     cb(null, uniqueFileName);
 //   },
 // });
-const storage = multer.memoryStorage();
-
+const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage });
 
 

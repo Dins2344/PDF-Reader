@@ -13,12 +13,21 @@ import { userRepositoryMongoDB } from "../../../database/mongoDB/repositories/us
 
 const userRoutes = () => {
     const router = express.Router()
-    const controller = userController(userDBRepository, userRepositoryMongoDB);
+  const controller = userController(userDBRepository, userRepositoryMongoDB);
+  
+  router.post(
+    "/upload-PDF",
+    upload.single("PDFFile"),
+    jwtAuthMiddleware,
+    controller.saveFileController
+  );
+
+  router.get("/get-uploaded-fil/:id",controller.getPDFController);
 
     router.post(
       "/merge-and-save",
       jwtAuthMiddleware,
-      upload.single("pdfFile"),
+      upload.single("PDFFile"),
       controller.mergeAndSaveController
     );
 

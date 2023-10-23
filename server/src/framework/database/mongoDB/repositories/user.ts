@@ -2,6 +2,7 @@
 import { RegisteredUser } from "../../../../types/user"
 import User from "../models/user_side/user"
 import Files from "../models/user_side/files"
+import PDFModel from "../models/user_side/PDFfiles"
 
 
 export const userRepositoryMongoDB = () => {
@@ -28,6 +29,30 @@ export const userRepositoryMongoDB = () => {
         }
     }
 
+    const savePDF = async (file:Buffer,fileName:string, userId: string) => {
+        const data = {
+            fileName: fileName,
+            fileData : file,
+            userId,
+        }
+        try {
+            return await PDFModel.create(data)
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const getPDF = async (fileId: string) => {
+        try {
+            const file = await PDFModel.findById(fileId)
+            return file?.fileData
+        } catch (err:any) {
+            console.log(err.message)
+        }
+
+    }
+
     const addPDF = async (userId :string, fileName:string) => {
         const data = {fileName,userId}
         try {
@@ -42,6 +67,8 @@ export const userRepositoryMongoDB = () => {
     return {
         getUserByEmail,
         addUser,
+        savePDF,
+        getPDF,
         addPDF
     }
 }
