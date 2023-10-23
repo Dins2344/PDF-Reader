@@ -4,8 +4,8 @@ import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { getUploadedPDF, mergePDF } from "../../api/user";
 import { useEffect, useState } from "react";
-
-import configKey from "../../envConfig";
+import Modal from "../common_components/modal";
+import { NavLink } from "react-router-dom";
 
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -22,28 +22,27 @@ const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
   const [numPages, setNumPages] = useState(0);
   const [selectedPages, setSelectedPages] = useState<number[]>([]);
   const [all, setAll] = useState(false);
-  const [extracted, setExtracted] = useState<string | null>(null);
-
+  const [extractedFileId, setExtractedFileId] = useState('')
+  const [open,setOpen] = useState(false)
 
   useEffect(() => {
-    getFile()
-  }, [])
- 
+    getFile();
+  }, []);
+
   const getFile = async () => {
-    const fileData = await getUploadedPDF(fileId);  
-    const pdfArrayBuffer = fileData
-    const uint8Array = new Uint8Array(pdfArrayBuffer)
+    const fileData = await getUploadedPDF(fileId);
+    const pdfArrayBuffer = fileData;
+    const uint8Array = new Uint8Array(pdfArrayBuffer);
     const blob = new Blob([uint8Array], { type: "application/pdf" });
 
     // Create a File from the Blob
     const fileObject = new File([blob], "lastAdded.pdf", {
       type: "application/pdf",
     });
-     setFile(fileObject);
-    console.log(fileObject)
-  }
+    setFile(fileObject);
+  };
 
-  const handleDocumentLoadSuccess = ({ numPages }) => {
+  const handleDocumentLoadSuccess  = ({ numPages }) => {
     setNumPages(numPages);
   };
 
@@ -56,23 +55,24 @@ const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
   };
 
   const handleMerge = async () => {
-    const data = {
-      selectedPages: selectedPages.sort((a: number, b:number)=>a-b)
+    const bodyData = {
+      selectedPages: selectedPages.sort((a: number, b: number) => a - b),
+      fileId,
+    };
+    const data  = await mergePDF(bodyData);
+    if (data.ok) {
+      console.log(data)
+      setExtractedFileId(data.fileId)
+      setOpen(true)
+    }
+  };
+  const handleModalClose = () => {
+    setOpen(false)
   }
 
-    await mergePDF(data).then((res) => {
-      console.log(res?.data);
-      const blob = new Blob([res?.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url);
-       window.URL.revokeObjectURL(url);
-      // console.log(URL.createObjectURL(blob));
-      setExtracted(url);
-      // console.log(res);
-    }).catch((err:any) => {
-      console.log(err)
-    })
-  };
+  const handleFileDownload = () => {
+    console.log(extractedFileId)
+  }
 
   const handleSelectAll = () => {
     if (all) {
@@ -99,57 +99,38 @@ const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
     <>
       <div className="w-full h-full flex  ">
         <div className="md:w-9/12 w-full px-2 xl:px-16 bg-slate-200 pt-16 min-h-screen">
-          {file && 
-          <Document
-            file={file} // Replace with your PDF file URL
-            onLoadSuccess={handleDocumentLoadSuccess}
-            className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-16"
-          >
-            {Array.from(new Array(numPages), (el, index) => (
-              <div
-                className="relative rounded-lg shadow-md p-2 md:p-5 bg-white"
-                key={index}
-              >
-                <Page
-                  className="border-2 flex justify-center"
-                  pageNumber={index + 1}
-                  width={160}
-                />
-                <label>
-                  Page {index + 1}
-                  <input
-                    type="checkbox"
-                    checked={selectedPages.includes(index + 1)}
-                    onChange={() => togglePageSelection(index + 1)}
-                    className="w-8 h-8 absolute top-2 right-2 z-10 rounded-full"
+          {file && (
+            <Document
+              file={file} // Replace with your PDF file URL
+              onLoadSuccess={handleDocumentLoadSuccess}
+              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-16"
+            >
+              {Array.from(new Array(numPages), (el, index) => (
+                <div
+                  className="relative rounded-lg shadow-md p-2 md:p-5 bg-white"
+                  key={index}
+                >
+                  <Page
+                    className="border-2 flex justify-center"
+                    pageNumber={index + 1}
+                    width={160}
                   />
-                </label>
-              </div>
-            ))}
-          </Document>
-          }
+                  <label>
+                    Page {index + 1}
+                    <input
+                      type="checkbox"
+                      checked={selectedPages.includes(index + 1)}
+                      onChange={() => togglePageSelection(index + 1)}
+                      className="w-8 h-8 absolute top-2 right-2 z-10 rounded-full"
+                    />
+                  </label>
+                </div>
+              ))}
+            </Document>
+          )}
         </div>
         <div className="md:w-3/12 hidden md:flex flex-col justify-center top-5 sticky  max-h-[640px] ">
           <div className="flex flex-col  px-3 ">
-            {extracted && (
-              <>
-                <div>
-                  <h3>Extracted PDF</h3>
-                  <iframe
-                    title="Extracted PDF"
-                    src={extracted}
-                    width="100%"
-                    height="400px"
-                  />
-                </div>
-                <div>
-                  <h3>Extracted PDF</h3>
-                  <a href={extracted} download="extracted.pdf">
-                    Download Extracted PDF
-                  </a>
-                </div>
-              </>
-            )}
             <h3 className="text-3xl text-center mt-5 mb-10 ">Extract pages</h3>
             <div className="flex w-full flex-wrap justify-center xl:justify-between px-5 mb-5">
               {!all ? (
@@ -233,6 +214,27 @@ const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
           </button>
         </div>
       </div>
+
+      <Modal isOpen={open} onClose={handleModalClose}>
+        <div className="p-4">
+          <h2 className="text-2xl text-green-500 text-center font-bold mb-4">
+            Successfully extracted file....!
+          </h2>
+          <p className="text-center mb-2">
+            Check <NavLink className='text-blue-500' to={'/my-files'}>My files</NavLink> section for more info..
+          </p>
+          <p className="text-center">
+            Click{" "}
+            <span
+              onClick={handleFileDownload}
+              className="text-blue-500 cursor-pointer"
+            >
+              here
+            </span>{" "}
+            to download
+          </p>
+        </div>
+      </Modal>
     </>
   );
 };

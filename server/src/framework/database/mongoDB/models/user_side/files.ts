@@ -1,12 +1,10 @@
 import { Schema, model } from "mongoose";
 
 const fileSchema = new Schema({
-  fileName: {
-    type: String,
-    required: [true, "please add a first name"],
-  },
+  fileName: String, // Original file name
+  fileData: Buffer, // Binary data of the PDF file
   userId: {
-    type: Schema.Types.ObjectId, // Reference to User model
+    type:Schema.Types.ObjectId, // Reference to User model
     ref: "User", // Reference the 'User' model
     required: [true, "Please add a user"],
   },
@@ -16,5 +14,5 @@ const fileSchema = new Schema({
   },
 });
 
-const Files = model("Files", fileSchema, "files");
-export default Files;
+const ExtractedFiles = model("ExtractedFiles", fileSchema, "extractedFiles");
+export default ExtractedFiles;

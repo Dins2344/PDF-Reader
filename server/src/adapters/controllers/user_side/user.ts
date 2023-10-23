@@ -37,10 +37,7 @@ const userController = (
     try {
       const fileData :Buffer = await getPDF(fileId,userDB)
       if (fileData) {
-        //  res.setHeader("Content-Type", "application/pdf");
-        console.log(fileData)
          res.send(fileData);  
-        // res.json({ file: file.fileData, message:'file retrieved',ok:true})
       } else {
         res.json({ok:false,message:'PDF not found'})
       }
@@ -52,29 +49,21 @@ const userController = (
 const mergeAndSaveController = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const user = req?.user;
-    const pdfBuffer = req?.file?.buffer;
-    const pagesToExtract = JSON.parse(req.body.selectedPages);
+    const bodyData = req.body
+
 
     try {
-      if (pdfBuffer && user) {
-        const response = await mergeAndSave(
-          { user, pdfBuffer, pagesToExtract },
+      if (bodyData && user) {const response = await mergeAndSave(
+          {
+            user,
+            pagesToExtract: bodyData.selectedPages,
+            fileId: bodyData.fileId
+          },
           userDB
         );
 
         if (response) {
-          // Set response headers for the downloaded PDF
-          res.setHeader("Content-Type", "application/pdf");
-          res.setHeader(
-            "Content-Disposition",
-            `attachment; filename=${response.fileName}`
-          );
-
-          console.log(response.extractedPdfBytes)
-          // Send the PDF data as the response body
-          const data = response.extractedPdfBytes
-          res.json({data})
-          // res.send(response.extractedPdfBytes);
+          res.json({ ok: true, fileId: response._id,message:'File successfully extracted'})
         } else {
           // Handle the case where the response is not as expected
           res

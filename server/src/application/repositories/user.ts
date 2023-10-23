@@ -18,8 +18,8 @@ export const userDBRepository = (repository: ReturnType<UserRepositoryMongoDB>) 
         return await repository.getPDF(fileId)
     }
 
-    const addFile = async (userId: string, fileName: string) => {
-       return await repository.addPDF(userId,fileName)
+    const addFile = async (userId: string,fileData:Buffer, fileName: string) => {
+       return await repository.addPDF(userId,fileData,fileName)
     }
 
     return {

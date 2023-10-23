@@ -27,7 +27,6 @@ const userRoutes = () => {
     router.post(
       "/merge-and-save",
       jwtAuthMiddleware,
-      upload.single("PDFFile"),
       controller.mergeAndSaveController
     );
 

@@ -27,21 +27,15 @@ export const getUploadedPDF = async (fileId: string) => {
 }
 
 interface MergePDFBody{
-  selectedPages:number[]
+  selectedPages: number[],
+  fileId:string
 }
 
-export const mergePDF = async (data:MergePDFBody) => {
+export const mergePDF = async (bodyData:MergePDFBody) => {
     try {
-        return await api.post("/user/merge-and-save", data, {
-          // responseType: "blob",
-          // headers: {
-          //   "Content-Type": "multipart/form-data", // Set Content-Type to multipart/form-data
-          // },
-        });
-    } catch (err:any) {
+      const { data } = await api.post("/user/merge-and-save", bodyData);
+      return data
+    } catch (err) {
         console.log(err)
-        if (err.request) {
-            console.log(err.message)
-        }
     }
 }
