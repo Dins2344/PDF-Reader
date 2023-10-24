@@ -62,3 +62,20 @@ export const mergeAndSave = async (
     }
   }
 };
+
+export const getAllExtractedFiles = async (userId: string, userRepository: ReturnType<UserDBInterface>) => {
+  const files = await userRepository.getAllExtractedFiles(userId)
+  if (!files) {
+    throw new Error('Retrieving all files failed')
+  }
+  return files
+}
+
+export const downloadExtractedFile = async (fileId: string, userRepository: ReturnType<UserDBInterface>) => {
+  const fileDetail = await userRepository.getExtractedFile(fileId)
+  if (fileDetail) {
+    return fileDetail
+  } else {
+    throw new Error('file retrieving failed')
+  }
+}

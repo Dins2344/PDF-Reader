@@ -21,14 +21,23 @@ export const userDBRepository = (repository: ReturnType<UserRepositoryMongoDB>) 
     const addFile = async (userId: string,fileData:Buffer, fileName: string) => {
        return await repository.addPDF(userId,fileData,fileName)
     }
+    const getExtractedFile = async (fileId: string) => {
+        return await repository.getExtractedPDF(fileId)
+    }
+
+    const getAllExtractedFiles = async (userId: string) => {
+        return await repository.getAllExtractedFiles(userId)
+    }
 
     return {
-        getUserByEmail,
-        addUser,
-        saveFile,
-        getFile,
-        addFile
-    }
+      getUserByEmail,
+      addUser,
+      saveFile,
+      getFile,
+      addFile,
+      getExtractedFile,
+      getAllExtractedFiles,
+    };
 }
 
 

@@ -58,10 +58,31 @@ export const userRepositoryMongoDB = () => {
     try {
       const res = await ExtractedFiles.create(data);
       return res;
-    } catch (err) {
+    } catch (err:any) {
       console.log(err);
+      throw new Error(err.message)
     }
   };
+
+  const getExtractedPDF = async (fileId: string) => {
+    try {
+      const res = await ExtractedFiles.findById(fileId)
+      return res
+    } catch (err: any) {
+      throw new Error(err.message)
+    }
+
+  }
+
+  const getAllExtractedFiles = async (userId: string) => {
+    try {
+      const files = await ExtractedFiles.find({ userId: userId })
+      return files
+    } catch (err:any) {
+      console.log(err)
+      throw new Error(err.message)
+    }
+  }
 
   return {
     getUserByEmail,
@@ -69,6 +90,8 @@ export const userRepositoryMongoDB = () => {
     savePDF,
     getPDF,
     addPDF,
+    getExtractedPDF,
+    getAllExtractedFiles,
   };
 };
 

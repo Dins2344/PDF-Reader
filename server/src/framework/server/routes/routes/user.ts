@@ -28,7 +28,11 @@ const userRoutes = () => {
       "/merge-and-save",
       jwtAuthMiddleware,
       controller.mergeAndSaveController
-    );
+  );
+  
+  router.get('/download-extracted-PDF/:id', jwtAuthMiddleware, controller.downloadPDFController)
+  
+  router.get('/get-users-all-extracted-files',jwtAuthMiddleware,controller.getAllExtractedFilesController)
 
     return router
 }

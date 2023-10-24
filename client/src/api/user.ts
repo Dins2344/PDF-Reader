@@ -39,3 +39,23 @@ export const mergePDF = async (bodyData:MergePDFBody) => {
         console.log(err)
     }
 }
+
+
+export const downloadExtractedPDF = async (fileId: string) => {
+  try {
+    await api.get(`/user/download-extracted-PDF/${fileId}`);
+  
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+
+export const getAllExtractedFiles = async () => {
+  try {
+    const { data } = await api.get('/user/getAllExtractedFiles')
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}

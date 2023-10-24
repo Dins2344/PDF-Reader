@@ -2,7 +2,7 @@ import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
-import { getUploadedPDF, mergePDF } from "../../api/user";
+import { downloadExtractedPDF, getUploadedPDF, mergePDF } from "../../api/user";
 import { useEffect, useState } from "react";
 import Modal from "../common_components/modal";
 import { NavLink } from "react-router-dom";
@@ -70,8 +70,10 @@ const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
     setOpen(false)
   }
 
-  const handleFileDownload = () => {
+  const handleFileDownload = async() => {
     console.log(extractedFileId)
+    await downloadExtractedPDF(extractedFileId)
+    
   }
 
   const handleSelectAll = () => {
