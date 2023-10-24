@@ -5,13 +5,12 @@ import NavBar from "./components/common_components/navBar.tsx";
 
 import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/home.tsx";
+import MyFilesPage from "./pages/myFiles.tsx";
 
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <App />
-    ),
+    element: <App />,
     errorElement: (
       <>
         <h4>error</h4>
@@ -19,24 +18,33 @@ const appRouter = createBrowserRouter([
     ),
     children: [
       {
-        path: '/',
+        path: "/",
         element: (
           <>
-          <NavBar />
-          <HomePage />
+            <NavBar />
+            <HomePage />
           </>
-        )
-    },
+        ),
+      },
       {
-        path: '/login',
+        path: "/login",
         element: (
           <>
-          <NavBar />
-          <LoginPage />
+            <NavBar />
+            <LoginPage />
           </>
-        )
-      }
-    ]
+        ),
+      },
+      {
+        path: "/my-files",
+        element: (
+          <>
+            <NavBar />
+            <MyFilesPage />
+          </>
+        ),
+      },
+    ],
   },
 ]);
 

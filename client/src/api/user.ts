@@ -53,7 +53,7 @@ export const downloadExtractedPDF = async (fileId: string) => {
 
 export const getAllExtractedFiles = async () => {
   try {
-    const { data } = await api.get('/user/getAllExtractedFiles')
+    const { data } = await api.get("/user/get-users-all-extracted-files");
     return data
   } catch (err) {
     console.log(err)

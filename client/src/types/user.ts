@@ -9,3 +9,11 @@ export interface userRegisterData{
     password: string
     confirmPassword:string
 }
+
+export interface ExtractedFileData{
+    fileName: string
+    fileData: Buffer
+    userId: string
+    _id: string
+    _v:number
+}
