@@ -59,3 +59,12 @@ export const getAllExtractedFiles = async () => {
     console.log(err)
   }
 }
+
+export const deleteExtractedFile = async (fileId: string) => {
+  try {
+    const { data } = await api.get(`/user/delete-extracted-file/${fileId}`);
+    return data
+  } catch (err) {
+    console.log(err)
+  }
+}

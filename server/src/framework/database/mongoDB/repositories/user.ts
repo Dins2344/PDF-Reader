@@ -84,6 +84,16 @@ export const userRepositoryMongoDB = () => {
     }
   }
 
+  const deleteExtractedFile = async (fileId: string) => {
+    try {
+      const res = await ExtractedFiles.findByIdAndDelete(fileId)
+      return res
+    } catch (err:any) {
+      console.log(err)
+      throw new Error(err.message)
+    }
+  }
+
   return {
     getUserByEmail,
     addUser,
@@ -92,6 +102,7 @@ export const userRepositoryMongoDB = () => {
     addPDF,
     getExtractedPDF,
     getAllExtractedFiles,
+    deleteExtractedFile
   };
 };
 

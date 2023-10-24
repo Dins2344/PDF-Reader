@@ -10,10 +10,11 @@ export interface userRegisterData{
     confirmPassword:string
 }
 
-export interface ExtractedFileData{
-    fileName: string
-    fileData: Buffer
-    userId: string
-    _id: string
-    _v:number
+export interface ExtractedFileData {
+  fileName: string;
+  fileData: Buffer;
+  userId: string;
+  createdOn:string
+  _id: string;
+  _v: number;
 }

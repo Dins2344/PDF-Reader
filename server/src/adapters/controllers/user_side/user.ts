@@ -1,4 +1,4 @@
-import { getAllExtractedFiles } from "./../../../application/usecases/user/user";
+import { deleteExtractedFile, getAllExtractedFiles } from "./../../../application/usecases/user/user";
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { UserDBInterface } from "../../../application/repositories/user";
@@ -132,12 +132,25 @@ const userController = (
     }
   );
 
+  const deleteExtractedFileController = asyncHandler(async (req: Request, res: Response) => {
+    const fileId = req.params.id 
+    if (fileId) {
+      try {
+        const response = await deleteExtractedFile(fileId, userDB)
+        res.status(200).json({ok:true,response,})
+      } catch (err: any) {
+        res.status(500).json({ ok: false, message:err.message})
+      }
+    }
+  })
+
   return {
     saveFileController,
     mergeAndSaveController,
     getPDFController,
     downloadPDFController,
     getAllExtractedFilesController,
+    deleteExtractedFileController,
   };
 };
 

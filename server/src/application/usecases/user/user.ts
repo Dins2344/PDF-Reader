@@ -79,3 +79,11 @@ export const downloadExtractedFile = async (fileId: string, userRepository: Retu
     throw new Error('file retrieving failed')
   }
 }
+
+export const deleteExtractedFile = async (fileId: string, userRepository: ReturnType<UserDBInterface>) => {
+  const res = await userRepository.deleteExtractedFile(fileId)
+  if (!res) {
+    throw new Error('Deleting file failed')
+  }
+  return res
+}

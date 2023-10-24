@@ -29,6 +29,10 @@ export const userDBRepository = (repository: ReturnType<UserRepositoryMongoDB>) 
         return await repository.getAllExtractedFiles(userId)
     }
 
+    const deleteExtractedFile = async (fileId: string) => {
+        return await repository.deleteExtractedFile(fileId)
+    }
+
     return {
       getUserByEmail,
       addUser,
@@ -37,6 +41,7 @@ export const userDBRepository = (repository: ReturnType<UserRepositoryMongoDB>) 
       addFile,
       getExtractedFile,
       getAllExtractedFiles,
+      deleteExtractedFile,
     };
 }
 
