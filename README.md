@@ -1,3 +1,27 @@
+# PDF Reader Project
+
+Welcome to the PDF Reader project! This project is designed to help you read and manage PDF files with ease.
+
+## Features
+
+- **Clean Architecture**: The backend of this project is built using the clean architecture principles, making it maintainable and extensible.
+
+- **React Frontend**: The frontend is developed using React, providing a modern and user-friendly interface for interacting with PDF files.
+
+- **React-PDF**: We use the `react-pdf` library to render and display PDF documents directly in the browser.
+
+- **JWT Authorization**: We have implemented JSON Web Tokens (JWT) for secure user authorization and authentication.
+
+- **PDF Processing**: The backend utilizes the `pdf-lib` library to efficiently process PDF files, including extraction and manipulation of pages.
+
+## Getting Started
+
+1. Clone the repository to your local machine.
+
+```shell
+git clone https://github.com/Dins2344/PDF-Reader/
+
+
 PDF Reader Project
 Welcome to the PDF Reader project! This project is designed to help you read and manage PDF files with ease.
 Live link: https://pdfreeder.netlify.app/
