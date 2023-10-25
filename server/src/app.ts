@@ -19,6 +19,8 @@ const app: Application = express()
 const server = http.createServer(app)
 const {startServer} = serverConfig(server)
 
+
+// calling the all the configurations
 expressConfig(app)
 connectDB()
 routes(app)
@@ -28,7 +30,7 @@ routes(app)
 
 
 
-
+//calling the start server function 
 startServer()
 
  

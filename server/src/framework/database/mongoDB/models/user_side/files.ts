@@ -1,5 +1,7 @@
+// import the Schema and model from the mongoose
 import { Schema, model } from "mongoose";
 
+//configuring model for ExtractedFiles collection
 const fileSchema = new Schema({
   fileName: String, // Original file name
   fileData: Buffer, // Binary data of the PDF file

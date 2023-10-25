@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//configuring model for uploaded original PDF files collection
 const pdfSchema = new mongoose.Schema({
   fileName: String, // Original file name
   fileData: Buffer, // Binary data of the PDF file

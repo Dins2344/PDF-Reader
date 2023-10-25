@@ -1,4 +1,3 @@
-import { authService } from './../../../framework/service/authFramework';
 import { LoginUser, RegisteredUser } from "../../../types/user";
 import { UserDBInterface } from "../../repositories/user";
 import { AuthServiceInterface } from "../../services/auth";

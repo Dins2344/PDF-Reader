@@ -1,5 +1,7 @@
-import  { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
+
+// configuring the User model for User collection
 const userSchema = new Schema({
   name: {
     type: String,
