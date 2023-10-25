@@ -2,6 +2,7 @@
 
 - Welcome to the PDF Reader project! This project is designed to help you read and manage PDF files with ease.
 - Live link: https://pdfreeder.netlify.app/
+- documentation: https://documenter.getpostman.com/view/26776391/2s9YRE2B5j
 - pdf-reader-frontend: Contains the React frontend for the project.
 - pdf-reader-backend: Houses the backend of the project with the clean architecture.
 
