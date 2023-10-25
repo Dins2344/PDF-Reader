@@ -1,13 +1,18 @@
-
+// import the hooks
 import { useEffect } from "react";
-import MyFilesComponent from "../components/body_components/myFiles";
 import { useNavigate } from "react-router-dom";
+
+// import the myFiles component
+import MyFilesComponent from "../components/body_components/myFiles";
 
 const MyFilesPage: React.FC = () => {
   const navigate = useNavigate()
+
   useEffect(() => {
     isLoggedIn()
-  },[])
+  }, [])
+  
+  //function for checking the user is logged in or out
   const isLoggedIn = () => {
     const token = localStorage.getItem('token')
     if (!token) {

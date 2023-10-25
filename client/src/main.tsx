@@ -1,9 +1,10 @@
+//import browser router
+import { createBrowserRouter } from "react-router-dom";
+
+// import all the pages
 import App from "./App.tsx";
 import LoginPage from "./pages/login.tsx";
 import NavBar from "./components/common_components/navBar.tsx";
-
-
-import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/home.tsx";
 import MyFilesPage from "./pages/myFiles.tsx";
 

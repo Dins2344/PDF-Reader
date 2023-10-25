@@ -1,5 +1,8 @@
+// import the hooks
 import { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+//import the required components
 import LoginForm, {
   LoginComponent,
 } from "../components/login_components/login";
@@ -9,20 +12,25 @@ import SignUpComponent, {
 
 const LoginPage: React.FC = () => {
   const [mode, setMode] = useState("login");
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
+
+  // function for switching btw login and sign up form
   const handleMode = (mode: string) => {
     setMode(mode);
   };
 
   useEffect(() => {
-    isLoggedIn()
-  })
+    isLoggedIn();
+  });
+
+  // function for checking the user is logged in or out
   const isLoggedIn = () => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token"); //collecting the token from the local storage
     if (token) {
-      navigate('/')
+      navigate("/");
     }
-  }
+  };
   return (
     <>
       <div className="w-screen h-screen ">

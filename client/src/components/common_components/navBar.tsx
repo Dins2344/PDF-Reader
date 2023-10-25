@@ -1,7 +1,12 @@
-import { NavLink } from "react-router-dom";
-import logo from "/logos/PDF Reader1.png";
-import { Menu, X } from "lucide-react";
+//import the hooks
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+
+//import the menubar icon and cross icon
+import { Menu, X } from "lucide-react";
+
+//import the logo from the public folder
+import logo from "/logos/PDF Reader1.png";
 
 const NavBar: React.FC = () => {
   return (
@@ -27,6 +32,8 @@ const NavLinks: React.FC = () => {
   useEffect(() => {
     isLoggedIn();
   });
+
+  // function for checking the user is logged in or out
   const isLoggedIn = () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -35,11 +42,14 @@ const NavLinks: React.FC = () => {
       setLogin(false);
     }
   };
+
+  //function for log out the user
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
   return (
+    // conditionally displaying nav menus 
     <>
       {login ? (
         <>
@@ -64,6 +74,8 @@ const NavLinks: React.FC = () => {
 
 const NavMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  
+  //function for handling the open and closing of the mobile navbar
   const handleOpen = () => {
     setIsOpen(!isOpen);
   };
@@ -79,9 +91,11 @@ const NavMenu: React.FC = () => {
         </div>
       </nav>
 
-          {isOpen && <div className="flex basis-full flex-col items-center ">
+      {isOpen && (
+        <div className="flex basis-full flex-col items-center ">
           <NavLinks />
-          </div>}
+        </div>
+      )}
     </>
   );
 };

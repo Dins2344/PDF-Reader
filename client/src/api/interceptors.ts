@@ -1,8 +1,12 @@
+// import the axios and its  features
 import axios, { AxiosInstance } from "axios";
+
+// import the configKey for accessing the env
 import configKey from "../envConfig";
+
 const api: AxiosInstance = axios.create({
   baseURL: configKey.baseURL,
-});
+});// creating the api
 
 api.interceptors.request.use(
   (config) => {

@@ -1,10 +1,17 @@
+//import the hooks
 import { useEffect, useState } from "react";
+
+//import the required APIs
 import {
   deleteExtractedFile,
   downloadExtractedPDF,
   getAllExtractedFiles,
 } from "../../api/user";
+
+// import the type for collected extracted files array
 import { ExtractedFileData } from "../../types/user";
+
+//import the spinner component for displaying while loading
 import Spinner from "../common_components/spinningWheel";
 
 const MyFilesComponent: React.FC = () => {
@@ -16,13 +23,16 @@ const MyFilesComponent: React.FC = () => {
     getAllFiles();
   }, []);
 
+  // function for fetching the extracted files
   const getAllFiles = async () => {
     setIsLoading(true)
-    const data = await getAllExtractedFiles();
+    const data = await getAllExtractedFiles(); // calling API
+
    setTimeout(() => {
       setIsLoading(false)
-    },1000)
-    if (data.ok) {
+   }, 1000) // setting timeout function for displaying the loading component for limited time
+    
+    if (data.ok) { //checking the response status
       setFiles(data.files);
     } else {
       setError(data.message)
@@ -30,11 +40,11 @@ const MyFilesComponent: React.FC = () => {
   };
 
   const handleDownload = async (fileId: string) => {
-    await downloadExtractedPDF(fileId);
+    await downloadExtractedPDF(fileId); //calling the API for downloading the file
   };
 
   const handleDelete = async (fileId: string) => {
-    const res = await deleteExtractedFile(fileId);
+    const res = await deleteExtractedFile(fileId); // calling the API for deleting the row
     if (res.ok) {
       getAllFiles();
     } else {
@@ -54,6 +64,8 @@ const MyFilesComponent: React.FC = () => {
         </h1>
         {error && <p className="text-red-500 my-3">{error}</p>}
         <div className="w-full xl:px-48 px-3 md:px-20 overflow-x-scroll md:overflow-hidden">
+
+          {/* table for displaying all the extracted files  */}
           <table className="min-w-full divide-y divide-gray-200 border-2 rounded-lg ">
             <thead>
               <tr>
@@ -71,7 +83,7 @@ const MyFilesComponent: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {files &&
-                files.map((item, i) => {
+                files.map((item, i) => { // looping through all the files
                   const time = new Date(item.createdOn).toLocaleString();
                   return (
                     <tr key={item._id}>
@@ -98,7 +110,7 @@ const MyFilesComponent: React.FC = () => {
                           onClick={() => {
                             handleDelete(item._id);
                           }}
-                        >
+                          >
                           Delete
                         </button>
                       </td>
@@ -106,9 +118,9 @@ const MyFilesComponent: React.FC = () => {
                   );
                 })}
 
-              {/* Add more rows as needed */}
             </tbody>
           </table>
+                {!files?.length && <p className="text-center text-xl md:text-2xl mt-4">List is empty. Please extract some files.</p>}
         </div>
       </div>
     </>

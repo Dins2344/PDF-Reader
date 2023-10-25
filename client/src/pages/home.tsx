@@ -1,13 +1,20 @@
+// import the hooks
 import { useNavigate } from "react-router-dom";
-import SplitPDF from "../components/body_components/splitPDF";
 import { useEffect, useState } from "react";
 
+// import the components
+import SplitPDF from "../components/body_components/splitPDF";
+
+
 const HomePage: React.FC = () => {
-  const [login,setLogin] = useState(false)
+  const [login, setLogin] = useState(false)
+  
    const navigate = useNavigate();
    useEffect(() => {
      isLoggedIn();
    }, []);
+  
+  // function for checking the user is logged in or out
    const isLoggedIn = () => {
      const token = localStorage.getItem("token");
      if (!token) {
@@ -15,7 +22,8 @@ const HomePage: React.FC = () => {
      } else {
        setLogin(true)
      }
-   };
+  };
+  
   return (
     <>
       <div className="pt-16 md:pt-20 w-full min-h-screen">

@@ -1,19 +1,25 @@
+//import the hooks 
 import { useRef, useState } from "react";
-import MergeFile from "./mergeFile";
+
+//import the API
 import { savePDF } from "../../api/user";
 
+//import the components
+import MergeFile from "./mergeFile";
 import Spinner from "../common_components/spinningWheel";
 
 
 
 
-// type FileState = File | null;
+
 const SplitPDF: React.FC = () => {
   const [fileId, setFileId] = useState('');
   const [error, setError] = useState("");
-  const [isLoading,setIsLoading] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState(false)
+  
+  const fileInputRef = useRef<HTMLInputElement>(null); //using refHook for changing the input tag with a button
 
+  //function for handling the file upload
   const handleFileUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setIsLoading(true)
@@ -22,9 +28,11 @@ const SplitPDF: React.FC = () => {
          const formData = new FormData();
         formData.append("PDFFile", selectedFile); // Appending file in the formData
         const res = await savePDF(formData) //API call for saving the PDF file in the sever
+
         setTimeout(() => {
           setIsLoading(false)
-        },2500)
+        }, 2000)
+        
         if (res.ok) {
           setFileId(res.response._id)
         }
@@ -32,10 +40,12 @@ const SplitPDF: React.FC = () => {
         setError("upload valid file"); // setting error if the file format is not PDF
         setTimeout(() => {
           setError("");
-        }, 4000);
+        }, 4000); // timeout function for removing the error
       }
     }
   };
+
+  //function for handling the button click as input
   const handleFileInputChange = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -44,7 +54,7 @@ const SplitPDF: React.FC = () => {
 
    return (
      <>
-       {isLoading && <Spinner />}
+       {isLoading && <Spinner />} 
        {fileId ? (
          <MergeFile fileId={fileId} />
        ) : (
@@ -59,7 +69,7 @@ const SplitPDF: React.FC = () => {
            <input
              type="file"
              ref={fileInputRef}
-             style={{ display: "none" }}
+             style={{ display: "none" }} // hiding the input tag
              onChange={(e) => handleFileUpload(e)}
              accept=".pdf"
              className="mt-3"
@@ -70,7 +80,7 @@ const SplitPDF: React.FC = () => {
            >
              Select file
            </button>
-           {error && <p className="text-red-600">{error}</p>}
+           {error && <p className="text-red-600 mt-3">{error}</p>} 
          </div>
        )}
      </>

@@ -1,6 +1,12 @@
+
+//import the api from interceptors
 import api from "./interceptors"
+
+// import the types
 import { userLoginData, userRegisterData } from "../types/user"
 
+
+//user login API calling functions
 export const userLogin = async (userData:userLoginData) => {
     try {
         const {data} = await api.post('/auth/user-login', userData)
@@ -11,6 +17,8 @@ export const userLogin = async (userData:userLoginData) => {
 
 }
 
+
+// userRegister API calling function
 export const userRegister = async (userData: userRegisterData) => {
     try {
         const { data } = await api.post('/auth/user-register', userData)

@@ -1,6 +1,11 @@
+// import the hooks 
 import { useState } from "react";
-import { userLogin } from "../../api/login";
 import { useNavigate } from "react-router-dom";
+
+// import the login API
+import { userLogin } from "../../api/login";
+
+//interface for props of both components
 interface ChildProps {
   handleMode: (mode: string) => void;
 }
@@ -13,16 +18,15 @@ const LoginForm: React.FC<ChildProps> = (props: ChildProps) => {
 
   const handleSubmit = async () => {
     const data = { email, password };
-    if (!data.email.match(/^[\w\.-]+@[\w\.-]+\.\w+/)) {
+    if (!data.email.match(/^[\w\.-]+@[\w\.-]+\.\w+/)) { //checking the email is valid
       setError("email is not valid");
     } else {
-      const res = await userLogin(data);
-      console.log(res);
+      const res = await userLogin(data); // calling the User login API
       if (!res.ok) {
         setError(res.message);
       } else {
         setError("");
-        localStorage.setItem('token', res.response)
+        localStorage.setItem('token', res.response) // setting the token in local storage
         navigate('/')
       }
     }

@@ -1,5 +1,17 @@
+// import the navigate hooks
 import { useNavigate } from "react-router-dom";
 
+// import formik components and yup for form validation
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+// import types for userData
+import { userRegisterData } from "../../types/user";
+
+// import API for register user
+import { userRegister } from "../../api/login";
+
+// interface for both component
 interface ChildProps {
   handleMode: (mode: string) => void;
 }
@@ -25,14 +37,11 @@ const SignUpComponent: React.FC<ChildProps> = (props: ChildProps) => {
   );
 };
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { userRegisterData } from "../../types/user";
-import { userRegister } from "../../api/login";
-
 export const SignUpForm: React.FC<ChildProps> = (props: ChildProps) => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const validationSchema = Yup.object().shape({
+    // validation schema for register form
     name: Yup.string().required("Name is required"),
     email: Yup.string()
       .email("Invalid email address")
@@ -46,12 +55,12 @@ export const SignUpForm: React.FC<ChildProps> = (props: ChildProps) => {
   });
 
   const handleSubmit = async (values: userRegisterData) => {
-    const res = await userRegister(values);
-      console.log(res);
-      if (res.ok) {
-          localStorage.setItem('token', res.response)
-          navigate('/')
-      }
+    const res = await userRegister(values); // calling the register API
+
+    if (res.ok) {
+      localStorage.setItem("token", res.response);// setting the token in the local storage
+      navigate("/");
+    }
   };
 
   return (
