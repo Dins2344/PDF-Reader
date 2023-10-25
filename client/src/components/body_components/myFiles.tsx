@@ -5,22 +5,27 @@ import {
   getAllExtractedFiles,
 } from "../../api/user";
 import { ExtractedFileData } from "../../types/user";
+import Spinner from "../common_components/spinningWheel";
 
 const MyFilesComponent: React.FC = () => {
   const [files, setFiles] = useState<ExtractedFileData[]>();
   const [error, setError] = useState("");
+  const [isLoading,setIsLoading] = useState(false)
 
   useEffect(() => {
     getAllFiles();
   }, []);
 
   const getAllFiles = async () => {
+    setIsLoading(true)
     const data = await getAllExtractedFiles();
+   setTimeout(() => {
+      setIsLoading(false)
+    },1000)
     if (data.ok) {
-      console.log(data.files);
       setFiles(data.files);
     } else {
-      console.log(data.message);
+      setError(data.message)
     }
   };
 
@@ -39,6 +44,7 @@ const MyFilesComponent: React.FC = () => {
 
   return (
     <>
+      {isLoading && <Spinner />}
       <div className="flex flex-col w-full items-center mt-10">
         <h2 className="text-center  text-3xl font-semibold md:font-bold md:text-5xl ">
           Extracted PDF Files
