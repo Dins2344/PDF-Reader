@@ -1,7 +1,9 @@
 # PDF Reader Project
 
-Welcome to the PDF Reader project! This project is designed to help you read and manage PDF files with ease.
-Live link: https://pdfreeder.netlify.app/
+- Welcome to the PDF Reader project! This project is designed to help you read and manage PDF files with ease.
+- Live link: https://pdfreeder.netlify.app/
+- pdf-reader-frontend: Contains the React frontend for the project.
+- pdf-reader-backend: Houses the backend of the project with the clean architecture.
 
 ## Features
 
@@ -12,7 +14,7 @@ Live link: https://pdfreeder.netlify.app/
 - **React-PDF**: We use the `react-pdf` library to render and display PDF documents directly in the browser.
 
 - **JWT Authorization**: We have implemented JSON Web Tokens (JWT) for secure user authorization and authentication.
-- 
+  
 - **Select and Merge**: Implemented API for selecting the pages and merge them to create new PDF file
 
 - **PDF Processing**: The backend utilizes the `pdf-lib` library to efficiently process PDF files, including extraction and manipulation of pages.
@@ -48,15 +50,4 @@ npm start
 
 Open your web browser and access the frontend at http://localhost:5173.
 
-shell```
 
-Project Structure
-pdf-reader-frontend: Contains the React frontend for the project.
-pdf-reader-backend: Houses the backend of the project with the clean architecture.
-
-
-Contributing
-We welcome contributions to this project! Whether it's a bug fix, an enhancement, or a new feature, your involvement is appreciated. Please refer to our contribution guidelines for more details.
-
-License
-This project is licensed under the MIT Licens
