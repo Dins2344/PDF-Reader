@@ -76,7 +76,7 @@ export const userRepositoryMongoDB = () => {
 
   const getAllExtractedFiles = async (userId: string) => {
     try {
-      const files = await ExtractedFiles.find({ userId: userId })
+      const files = await ExtractedFiles.find({ userId: userId }).sort({_id:-1})
       return files
     } catch (err:any) {
       console.log(err)

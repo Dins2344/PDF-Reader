@@ -42,9 +42,11 @@ const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
     setFile(fileObject);
   };
 
-  const handleDocumentLoadSuccess  = ({ numPages }) => {
-    setNumPages(numPages);
-  };
+
+
+ const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+   setNumPages(numPages);
+ };
 
   const togglePageSelection = (page: number) => {
     if (selectedPages.includes(page)) {
@@ -112,6 +114,7 @@ const MergeFile: React.FC<ChildProps> = ({ fileId }) => {
                   className="relative rounded-lg shadow-md p-2 md:p-5 bg-white"
                   key={index}
                 >
+                  <p className="hidden">{el}</p>
                   <Page
                     className="border-2 flex justify-center"
                     pageNumber={index + 1}
